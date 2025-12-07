@@ -99,7 +99,7 @@ export default function About() {
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 shadow-xl overflow-hidden"
+              className="relative bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 shadow-xl overflow-visible"
             >
               <div className="relative w-full h-[500px] rounded-xl overflow-hidden">
                 <Image
