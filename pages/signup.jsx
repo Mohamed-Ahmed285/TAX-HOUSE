@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import SignupNav from '../components/SignupNav'
 import Footer from '../components/Footer'
+import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
