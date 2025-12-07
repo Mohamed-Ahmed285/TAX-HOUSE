@@ -5,7 +5,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>بيت الضرائب - Taxes House</title>
+        <title> IAC - Insight Accounting & Consultant</title>
         <meta name="description" content="شركة متخصصة في المحاسبة، الضرائب، والمراجعة" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

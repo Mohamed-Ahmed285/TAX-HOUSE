@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa'
+import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -25,9 +26,10 @@ export default function Footer() {
           <div>
             <div className="flex items-center mb-4">
               <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-xl">ض</span>
+                <span className="text-primary font-bold text-xl"><MdRemoveRedEye />
+</span>
               </div>
-              <span className="mr-3 text-xl font-bold">بيت الضرائب</span>
+              <span className="mr-3 text-xl font-bold">IAC</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               شركة متخصصة في المحاسبة، الضرائب، والمراجعة. نساعد الشركات على
@@ -80,7 +82,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-secondary mt-8 pt-8 text-center text-gray-300 text-sm">
-          <p>© {currentYear} بيت الضرائب. جميع الحقوق محفوظة.</p>
+          <p>© {currentYear}  IAC. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>

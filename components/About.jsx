@@ -181,7 +181,7 @@ export default function About() {
                 variants={itemVariants}
                 className="text-lg"
               >
-                بيت الضرائب هي شركة متخصصة في تقديم خدمات المحاسبة، الضرائب،
+                 IAC هي شركة متخصصة في تقديم خدمات المحاسبة، الضرائب،
                 والمراجعة للشركات والمؤسسات.
               </motion.p>
               <motion.p variants={itemVariants}>

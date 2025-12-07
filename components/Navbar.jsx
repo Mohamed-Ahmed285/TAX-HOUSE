@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -39,11 +40,11 @@ export default function Navbar() {
           <Link href="/" className="flex items-center space-x-2 space-x-reverse">
             <div className="flex items-center">
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">ض</span>
+                <span className="text-white font-bold text-xl"><MdRemoveRedEye /></span>
               </div>
               <span className="mr-3 text-xl font-bold text-primary">
-                بيت الضرائب
-              </span>
+  IAC              
+  </span>
             </div>
           </Link>
 

@@ -46,7 +46,7 @@ export default function Signup() {
           <div className="bg-white rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-2xl">ض</span>
+                <span className="text-white font-bold text-2xl"><MdRemoveRedEye /></span>
               </div>
               <h1 className="text-3xl font-bold text-primary mb-2">إنشاء حساب جديد</h1>
               <p className="text-gray-600">انضم إلينا اليوم</p>

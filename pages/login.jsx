@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import LoginNav from '../components/LoginNav'
 import Footer from '../components/Footer'
+import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ export default function Login() {
           <div className="bg-white rounded-2xl shadow-2xl p-8">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-bold text-2xl">ض</span>
+                <span className="text-white font-bold text-2xl"><MdRemoveRedEye /></span>
               </div>
               <h1 className="text-3xl font-bold text-primary mb-2">دخول الحساب</h1>
               <p className="text-gray-600">مرحباً بك مرة أخرى</p>
