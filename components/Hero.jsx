@@ -3,19 +3,21 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Hero() {
-  // Staggered animation for text elements
-  const containerVariants = {
+  // Animation Variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  }
+
+  const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
     }
   }
 
-  const itemVariants = {
+   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
@@ -25,235 +27,36 @@ export default function Hero() {
   }
 
   return (
-    <section 
-      className="relative min-h-screen flex items-center overflow-hidden bg-primary pt-20"
-      dir="rtl"
-    >
-      {/* --- Artistic Background Pattern --- */}
+    <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-[#F8FAFC]" dir="rtl">
       
-      {/* Geometric Grid Pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(199, 167, 108, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(199, 167, 108, 0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-        }}
-      />
-
-      {/* Animated Diagonal Lines Pattern */}
-      <motion.div
-        className="absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 10px,
-            rgba(199, 167, 108, 0.1) 10px,
-            rgba(199, 167, 108, 0.1) 20px
-          )`,
-        }}
-        animate={{
-          backgroundPosition: ['0% 0%', '100% 100%'],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: 'reverse',
-          ease: 'linear',
-        }}
-      />
-
-      {/* Animated Mesh Gradient Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full"
-          style={{
-            background: `
-              radial-gradient(circle at 20% 30%, rgba(30, 77, 143, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(199, 167, 108, 0.12) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(10, 34, 64, 0.2) 0%, transparent 70%)
-            `,
-          }}
-          animate={{
-            backgroundPosition: ['0% 0%', '100% 100%'],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
+      {/* --- Dynamic Background --- */}
+      {/* 1. The Slanted Blue Background */}
+      <div className="absolute top-0 right-0 w-[55%] h-full bg-primary transform -skew-x-12 translate-x-20 origin-top z-0 hidden lg:block">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
+        {/* Subtle Pattern inside the blue */}
+        <div className="absolute inset-0 opacity-10" 
+             style={{ backgroundImage: 'radial-gradient(circle, #ffffffff 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
+        </div>
       </div>
 
-      {/* Floating Geometric Shapes */}
-      {[...Array(8)].map((_, i) => {
-        const size = [60, 80, 100, 120][i % 4]
-        const positions = [
-          { top: '10%', right: '15%' },
-          { top: '20%', left: '10%' },
-          { bottom: '15%', right: '20%' },
-          { bottom: '25%', left: '15%' },
-          { top: '50%', right: '5%' },
-          { top: '60%', left: '5%' },
-          { bottom: '40%', right: '30%' },
-          { bottom: '50%', left: '25%' },
-        ]
-        const colors = [
-          'rgba(199, 167, 108, 0.08)',
-          'rgba(30, 77, 143, 0.06)',
-          'rgba(199, 167, 108, 0.1)',
-          'rgba(30, 77, 143, 0.08)',
-        ]
-        
-        return (
-          <motion.div
-            key={i}
-            className="absolute"
-            style={{
-              width: `${size}px`,
-              height: `${size}px`,
-              ...positions[i],
-              background: colors[i % 4],
-              borderRadius: i % 2 === 0 ? '50%' : '20%',
-              filter: 'blur(40px)',
-            }}
-            animate={{
-              y: [0, -30, 0],
-              x: [0, 20, 0],
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 8 + i * 0.5,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.3,
-            }}
-          />
-        )
-      })}
-
-      {/* Artistic Wave Pattern */}
-      <svg
-        className="absolute bottom-0 left-0 w-full h-32 opacity-10"
-        preserveAspectRatio="none"
-        viewBox="0 0 1200 120"
-        fill="none"
-      >
-        <motion.path
-          d="M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z"
-          fill="url(#waveGradient)"
-          animate={{
-            d: [
-              'M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z',
-              'M0,60 Q300,40 600,60 T1200,60 L1200,120 L0,120 Z',
-              'M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z',
-            ],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-        <defs>
-          <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(199, 167, 108, 0.3)" />
-            <stop offset="50%" stopColor="rgba(30, 77, 143, 0.2)" />
-            <stop offset="100%" stopColor="rgba(199, 167, 108, 0.3)" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Top Wave Pattern */}
-      <svg
-        className="absolute top-0 left-0 w-full h-32 opacity-10 rotate-180"
-        preserveAspectRatio="none"
-        viewBox="0 0 1200 120"
-        fill="none"
-      >
-        <motion.path
-          d="M0,60 Q300,20 600,60 T1200,60 L1200,0 L0,0 Z"
-          fill="url(#waveGradientTop)"
-          animate={{
-            d: [
-              'M0,60 Q300,20 600,60 T1200,60 L1200,0 L0,0 Z',
-              'M0,60 Q300,40 600,60 T1200,60 L1200,0 L0,0 Z',
-              'M0,60 Q300,20 600,60 T1200,60 L1200,0 L0,0 Z',
-            ],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-        <defs>
-          <linearGradient id="waveGradientTop" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgba(30, 77, 143, 0.2)" />
-            <stop offset="50%" stopColor="rgba(199, 167, 108, 0.3)" />
-            <stop offset="100%" stopColor="rgba(30, 77, 143, 0.2)" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* Animated Orbs/Blobs */}
-      <motion.div 
-        className="absolute -top-[20%] -left-[10%] w-[500px] h-[500px] bg-accent/20 rounded-full blur-[100px]"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3], 
-          x: [0, 50, 0],
-          y: [0, 30, 0],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      <motion.div 
-        className="absolute top-[40%] -right-[10%] w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px]"
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-          x: [0, -30, 0],
-          y: [0, -20, 0],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Additional Accent Orb */}
-      <motion.div 
-        className="absolute bottom-[10%] left-[20%] w-[400px] h-[400px] bg-accent/15 rounded-full blur-[90px]"
-        animate={{ 
-          scale: [1, 1.3, 1],
-          opacity: [0.2, 0.35, 0.2],
-          x: [0, 40, 0],
-        }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Decorative Corner Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 opacity-5">
-        <div className="absolute top-0 right-0 w-full h-full border-t-2 border-r-2 border-accent rounded-bl-[100px]"></div>
-      </div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 opacity-5">
-        <div className="absolute bottom-0 left-0 w-full h-full border-b-2 border-l-2 border-secondary rounded-tr-[100px]"></div>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
           
-          {/* --- Right Side: Text Content --- */}
-          <motion.div
-            variants={containerVariants}
+          {/* --- Text Content (Right) --- */}
+          <motion.div 
+            variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="text-right"
+            className="flex-1 text-right lg:max-w-[600px]"
           >
-       
+            {/* Modern Pill Badge */}
+            <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-8">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+              </span>
+              <span className="text-accent font-bold text-sm tracking-wide">متاحون لاستقبال عملاء جدد</span>
+            </motion.div>
 
             <motion.h1 
               variants={itemVariants}
@@ -265,14 +68,11 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-xl"
-            >
-              نقدم خبرة 22 عاماً في المحاسبة والضرائب لمساعدة شركتك على النمو والامتثال واتخاذ القرارات المالية الصحيحة بدقة متناهية.
+            <motion.p variants={fadeInUp} className="text-xl text-gray-600 lg:text-blue-100 mb-10 leading-relaxed font-light">
+              نجمع بين الخبرة المحاسبية التقليدية وأحدث التقنيات لنمنحك دقة تامة ورؤية استراتيجية واضحة لنمو أعمالك.
             </motion.p>
 
-            <motion.div 
+           <motion.div 
               variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4"
             >
@@ -291,10 +91,10 @@ export default function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats Strip */}
-            <motion.div 
+            {/* Trust Indicators */}
+             <motion.div 
               variants={itemVariants}
-              className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-6"
+              className="mt-12 pt-8 pb-8 border-t border-white/10 grid grid-cols-3 gap-6"
             >
               <div>
                 <h3 className="text-3xl font-bold text-white">22+</h3>
@@ -311,97 +111,54 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* --- Left Side: Modern Image Composition --- */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative lg:h-[600px] flex items-center justify-center"
+          {/* --- Image/Visual (Left) --- */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex-1 relative w-full max-w-xl"
           >
-            {/* Decorative Frame Elements */}
-            <motion.div
-              className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-accent/30 rounded-tl-3xl"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            <motion.div
-              className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-secondary/30 rounded-br-3xl"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 1.5,
-              }}
-            />
+            {/* Decorative blob behind */}
+            {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-100/50 rounded-full blur-3xl z-0"></div> */}
 
-            {/* The Main Image Container */}
-            <div className="relative w-full h-[400px] lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-              {/* Animated Background Glow */}
-              <motion.div
-                className="absolute -inset-4 bg-gradient-to-br from-accent/20 via-secondary/20 to-accent/20 rounded-3xl blur-2xl -z-10"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.4, 0.6, 0.4],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
+            {/* Main Card Container */}
+            <div className="relative z-10 bg-white p-4 rounded-3xl shadow-2xl border border-gray-100 transform transition-transform hover:scale-[1.01] duration-500">
+              <div className="relative h-[450px] w-full rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/pexels-karola-g-4386373.jpg" 
+                  alt="Modern Accounting"
+                  fill
+                  className="object-cover"
+                />
+                
+                {/* Gradient Overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
+              </div>
 
-              <Image
-                src="/images/pexels-karola-g-4386373.jpg"
-                alt="Financial Analysis"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                priority
-              />
-              
-              {/* Artistic Overlay Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/20 mix-blend-overlay"></div>
-              
-              {/* Decorative Corner Accents */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent/20 to-transparent rounded-bl-full"></div>
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tl from-secondary/20 to-transparent rounded-tr-full"></div>
+              {/* Floating "Glass" Stats Card */}
+              <motion.div 
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-white/50 max-w-[240px]"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-2 bg-green-100 rounded-lg text-green-600">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                  </div>
+                  <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+24%</span>
+                </div>
+                <p className="text-gray-500 text-xs mb-1">صافي الأرباح</p>
+                <p className="text-2xl font-bold text-gray-900">245,000</p>
+              </motion.div>
+
+              {/* Decorative Circle Tag */}
+              <div className="absolute top-6 right-6 bg-accent text-primary font-bold text-xs px-3 py-1 rounded-full shadow-lg">
+                خبرة 22 عاماً
+              </div>
             </div>
-
-            {/* Floating Decorative Elements */}
-            <motion.div
-              className="absolute -top-8 -left-8 w-16 h-16 bg-accent/20 rounded-full blur-xl"
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            <motion.div
-              className="absolute -bottom-8 -right-8 w-20 h-20 bg-secondary/20 rounded-full blur-xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 2,
-              }}
-            />
           </motion.div>
+
         </div>
       </div>
     </section>

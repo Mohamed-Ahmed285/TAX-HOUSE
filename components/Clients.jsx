@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 // Placeholder client logos - in production, these would be actual images
-const clients = Array.from({ length: 12 }, (_, i) => ({
+const clients = Array.from({ length: 4 }, (_, i) => ({
   id: i + 1,
   name: `عميل ${i + 1}`,
   logo: '/images/client.png',
