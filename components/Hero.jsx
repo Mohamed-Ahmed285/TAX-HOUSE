@@ -30,7 +30,21 @@ export default function Hero() {
     <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-[#F8FAFC]" dir="rtl">
       
       {/* --- Dynamic Background --- */}
-      {/* 1. The Slanted Blue Background */}
+      {/* Mobile Background - Curved gradient design */}
+      <div className="absolute top-0 left-0 w-full h-full bg-primary z-0 lg:hidden">
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>     
+        
+        {/* Subtle dot pattern overlay */}
+        <div className="absolute inset-0 opacity-15" 
+             style={{ backgroundImage: 'radial-gradient(circle, #ffffffff 1px, transparent 1px)', backgroundSize: '25px 25px' }}>
+        </div>
+        
+        {/* Gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-black/10"></div>
+      </div>
+      
+      {/* 1. The Slanted Blue Background - Desktop only */}
       <div className="absolute top-0 right-0 w-[55%] h-full bg-primary transform -skew-x-12 translate-x-20 origin-top z-0 hidden lg:block">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
         {/* Subtle Pattern inside the blue */}
@@ -68,7 +82,7 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            <motion.p variants={fadeInUp} className="text-xl text-gray-600 lg:text-blue-100 mb-10 leading-relaxed font-light">
+            <motion.p variants={fadeInUp} className="text-xl text-blue-100 lg:text-blue-100 mb-10 leading-relaxed font-light">
               نجمع بين الخبرة المحاسبية التقليدية وأحدث التقنيات لنمنحك دقة تامة ورؤية استراتيجية واضحة لنمو أعمالك.
             </motion.p>
 
@@ -94,7 +108,7 @@ export default function Hero() {
             {/* Trust Indicators */}
              <motion.div 
               variants={itemVariants}
-              className="mt-12 pt-8 pb-8 border-t border-white/10 grid grid-cols-3 gap-6"
+              className="mt-12 pt-8 pb-8 border-t border-white/10 grid grid-cols-3 gap-6 justify-items-center"
             >
               <div>
                 <h3 className="text-3xl font-bold text-white">22+</h3>
