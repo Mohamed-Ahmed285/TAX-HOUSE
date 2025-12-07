@@ -36,10 +36,10 @@ export default function About() {
     <section id="about" ref={ref} className="py-20 bg-white relative overflow-hidden" dir="rtl">
       {/* Background Decorative Elements */}
       <motion.div
-        className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+        className="absolute top-0 left-0 w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 bg-primary/5 rounded-full blur-3xl"
         animate={{
-          x: [0, 50, 0],
-          y: [0, 30, 0],
+          x: [0, 25, 0],
+          y: [0, 15, 0],
         }}
         transition={{
           duration: 8,
@@ -48,10 +48,10 @@ export default function About() {
         }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+        className="absolute bottom-0 right-0 w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 bg-accent/5 rounded-full blur-3xl"
         animate={{
-          x: [0, -50, 0],
-          y: [0, -30, 0],
+          x: [0, -25, 0],
+          y: [0, -15, 0],
         }}
         transition={{
           duration: 10,
