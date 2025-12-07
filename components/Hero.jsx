@@ -53,7 +53,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20 pb-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
           
           {/* --- Text Content (Right) --- */}
@@ -108,7 +108,7 @@ export default function Hero() {
             {/* Trust Indicators */}
              <motion.div 
               variants={itemVariants}
-              className="mt-12 pt-8 pb-8 border-t border-white/10 grid grid-cols-3 gap-6 justify-items-center"
+              className="mt-12 pt-8 border-t border-white/10 grid grid-cols-3 gap-6 justify-items-center"
             >
               <div>
                 <h3 className="text-3xl font-bold text-white">22+</h3>
