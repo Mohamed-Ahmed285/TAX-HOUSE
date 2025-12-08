@@ -8,20 +8,52 @@ export default function Contact() {
     phone: '',
     message: '',
   })
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
+    // Clear messages when user types
+    if (error) setError('')
+    if (success) setSuccess('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // In production, this would send data to a backend
-    console.log('Form submitted:', formData)
-    alert('شكراً لتواصلك معنا! سنرد عليك قريباً.')
-    setFormData({ name: '', email: '', phone: '', message: '' })
+    setError('')
+    setSuccess('')
+    setLoading(true)
+
+    try {
+      const response = await fetch('/api/sendMail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'حدث خطأ أثناء إرسال الرسالة')
+      }
+
+      setSuccess('شكراً لتواصلك معنا! سنرد عليك قريباً.')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } catch (err) {
+      setError(err.message || 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -106,6 +138,24 @@ export default function Contact() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full"></div>
               
               <div className="space-y-6 relative z-10">
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                  >
+                    {error}
+                  </motion.div>
+                )}
+                {success && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm"
+                  >
+                    {success}
+                  </motion.div>
+                )}
                 {[
                   { id: 'name', label: 'الاسم الكامل', type: 'text', placeholder: 'أدخل اسمك الكامل' },
                   { id: 'email', label: 'البريد الإلكتروني', type: 'email', placeholder: 'example@email.com' },
@@ -127,9 +177,10 @@ export default function Contact() {
                       name={field.id}
                       value={formData[field.id]}
                       onChange={handleChange}
-                      required
+                      required={field.id !== 'phone'}
+                      disabled={loading}
                       whileFocus={{ scale: 1.02 }}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                       placeholder={field.placeholder}
                     />
                   </motion.div>
@@ -151,31 +202,35 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows="5"
+                    disabled={loading}
                     whileFocus={{ scale: 1.02 }}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                     placeholder="اكتب رسالتك هنا..."
                   ></motion.textarea>
                 </motion.div>
 
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl relative overflow-hidden"
+                  disabled={loading}
+                  whileHover={{ scale: loading ? 1 : 1.05 }}
+                  whileTap={{ scale: loading ? 1 : 0.95 }}
+                  className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <motion.span
                     className="relative z-10"
                     initial={{ opacity: 1 }}
-                    whileHover={{ x: -5 }}
+                    whileHover={{ x: loading ? 0 : -5 }}
                   >
-                    إرسال الرسالة
+                    {loading ? 'جاري الإرسال...' : 'إرسال الرسالة'}
                   </motion.span>
-                  <motion.div
-                    className="absolute inset-0 bg-accent"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  {!loading && (
+                    <motion.div
+                      className="absolute inset-0 bg-accent"
+                      initial={{ x: '-100%' }}
+                      whileHover={{ x: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
                 </motion.button>
               </div>
             </motion.form>

@@ -1,11 +1,14 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import SignupNav from '../components/SignupNav'
 import Footer from '../components/Footer'
-import { MdRemoveRedEye } from "react-icons/md";
+import { MdRemoveRedEye } from "react-icons/md"
+import { signUpUser } from '../lib/auth'
 
 export default function Signup() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,25 +16,57 @@ export default function Signup() {
     confirmPassword: '',
     companyName: '',
   })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
+    // Clear error when user types
+    if (error) setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
     
+    // Client-side validation
     if (formData.password !== formData.confirmPassword) {
-      alert('كلمات المرور غير متطابقة')
+      setError('كلمات المرور غير متطابقة')
+      return
+    }
+
+    if (formData.password.length < 6) {
+      setError('كلمة المرور يجب أن تكون 6 أحرف على الأقل')
       return
     }
     
-    // In production, this would register with backend
-    console.log('Signup attempt:', formData)
-    alert('تم التسجيل بنجاح (واجهة تجريبية)')
+    setLoading(true)
+
+    try {
+      await signUpUser({ email: formData.email, password: formData.password })
+      // Redirect to home page after successful signup
+      router.push('/')
+    } catch (err) {
+      // Handle Firebase auth errors with user-friendly Arabic messages
+      let errorMessage = 'حدث خطأ أثناء إنشاء الحساب'
+      
+      if (err.code === 'auth/email-already-in-use') {
+        errorMessage = 'البريد الإلكتروني مستخدم بالفعل'
+      } else if (err.code === 'auth/invalid-email') {
+        errorMessage = 'صيغة البريد الإلكتروني غير صحيحة'
+      } else if (err.code === 'auth/weak-password') {
+        errorMessage = 'كلمة المرور ضعيفة جداً'
+      } else if (err.message) {
+        errorMessage = err.message
+      }
+      
+      setError(errorMessage)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -54,6 +89,16 @@ export default function Signup() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+
               <div>
                 <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
                   الاسم الكامل
@@ -65,7 +110,8 @@ export default function Signup() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="أدخل اسمك الكامل"
                 />
               </div>
@@ -81,7 +127,8 @@ export default function Signup() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="example@email.com"
                 />
               </div>
@@ -96,7 +143,8 @@ export default function Signup() {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="اسم الشركة"
                 />
               </div>
@@ -113,7 +161,8 @@ export default function Signup() {
                   onChange={handleChange}
                   required
                   minLength={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="••••••••"
                 />
               </div>
@@ -130,7 +179,8 @@ export default function Signup() {
                   onChange={handleChange}
                   required
                   minLength={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="••••••••"
                 />
               </div>
@@ -152,9 +202,10 @@ export default function Signup() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl"
+                disabled={loading}
+                className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                إنشاء الحساب
+                {loading ? 'جاري إنشاء الحساب...' : 'إنشاء الحساب'}
               </button>
             </form>
 

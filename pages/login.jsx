@@ -1,28 +1,59 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import LoginNav from '../components/LoginNav'
 import Footer from '../components/Footer'
-import { MdRemoveRedEye } from "react-icons/md";
+import { MdRemoveRedEye } from "react-icons/md"
+import { loginUser } from '../lib/auth'
 
 export default function Login() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
+    // Clear error when user types
+    if (error) setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // In production, this would authenticate with backend
-    console.log('Login attempt:', formData)
-    alert('تسجيل الدخول (واجهة تجريبية)')
+    setError('')
+    setLoading(true)
+
+    try {
+      await loginUser({ email: formData.email, password: formData.password })
+      // Redirect to home page after successful login
+      router.push('/')
+    } catch (err) {
+      // Handle Firebase auth errors with user-friendly Arabic messages
+      let errorMessage = 'حدث خطأ أثناء تسجيل الدخول'
+      
+      if (err.code === 'auth/user-not-found') {
+        errorMessage = 'البريد الإلكتروني غير مسجل'
+      } else if (err.code === 'auth/wrong-password') {
+        errorMessage = 'كلمة المرور غير صحيحة'
+      } else if (err.code === 'auth/invalid-email') {
+        errorMessage = 'صيغة البريد الإلكتروني غير صحيحة'
+      } else if (err.code === 'auth/too-many-requests') {
+        errorMessage = 'تم تجاوز عدد المحاولات المسموح بها. يرجى المحاولة لاحقاً'
+      } else if (err.message) {
+        errorMessage = err.message
+      }
+      
+      setError(errorMessage)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -45,6 +76,16 @@ export default function Login() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+
               <div>
                 <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
                   البريد الإلكتروني
@@ -56,7 +97,8 @@ export default function Login() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="example@email.com"
                 />
               </div>
@@ -72,7 +114,8 @@ export default function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  disabled={loading}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
                   placeholder="••••••••"
                 />
               </div>
@@ -95,9 +138,10 @@ export default function Login() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl"
+                disabled={loading}
+                className="w-full bg-primary text-white py-4 rounded-lg font-bold text-lg hover:bg-secondary transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                تسجيل الدخول
+                {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
               </button>
             </form>
 
