@@ -35,7 +35,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, message } = req.body || {}
+    const { name, email, phone, companyName, message } = req.body || {}
     validatePayload({ name, email, message })
 
     const transporter = getTransporter()
@@ -45,13 +45,30 @@ export default async function handler(req, res) {
       throw new Error('لم يتم ضبط بريد Outlook في المتغيرات البيئية')
     }
 
+    // Build email content with optional fields
+    let textContent = `الاسم: ${name}\nالبريد: ${email}\n`
+    let htmlContent = `<p><strong>الاسم:</strong> ${name}</p><p><strong>البريد:</strong> ${email}</p>`
+    
+    if (phone) {
+      textContent += `رقم الهاتف: ${phone}\n`
+      htmlContent += `<p><strong>رقم الهاتف:</strong> ${phone}</p>`
+    }
+    
+    if (companyName) {
+      textContent += `اسم الشركة: ${companyName}\n`
+      htmlContent += `<p><strong>اسم الشركة:</strong> ${companyName}</p>`
+    }
+    
+    textContent += `\n${message}`
+    htmlContent += `<p><strong>الرسالة:</strong><br/>${message}</p>`
+
     await transporter.sendMail({
-      from: `"${name}" <${toAddress}>`,
+      from: `"${name}" <${email}>`,
       replyTo: email,
       to: toAddress,
-      subject: `رسالة جديدة من ${name}`,
-      text: `الاسم: ${name}\nالبريد: ${email}\n\n${message}`,
-      html: `<p><strong>الاسم:</strong> ${name}</p><p><strong>البريد:</strong> ${email}</p><p><strong>الرسالة:</strong><br/>${message}</p>`
+      subject: `رسالة جديدة من ${name}${companyName ? ` - ${companyName}` : ''}`,
+      text: textContent,
+      html: htmlContent
     })
 
     return res.status(200).json({ success: true })

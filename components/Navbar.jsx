@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { MdRemoveRedEye } from "react-icons/md";
+import { MdRemoveRedEye } from "react-icons/md"
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../lib/firebase'
+import { logoutUser } from '../lib/auth'
+import { useRouter } from 'next/router'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +20,22 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    })
+    return () => unsubscribe()
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser()
+      router.push('/')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
 
   const navLinks = [
     { href: '#about', label: 'عن الشركة' },
@@ -59,12 +81,21 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/login"
-              className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium shadow-md hover:shadow-lg"
-            >
-              تسجيل الدخول
-            </Link>
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium shadow-md hover:shadow-lg"
+              >
+                تسجيل الخروج
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium shadow-md hover:shadow-lg"
+              >
+                تسجيل الدخول
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -110,13 +141,25 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium text-center"
-              >
-                تسجيل الدخول
-              </Link>
+              {user ? (
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    handleLogout()
+                  }}
+                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium text-center w-full"
+                >
+                  تسجيل الخروج
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-all duration-200 font-medium text-center"
+                >
+                  تسجيل الدخول
+                </Link>
+              )}
             </div>
           </motion.div>
         )}

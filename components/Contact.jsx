@@ -6,6 +6,7 @@ export default function Contact() {
     name: '',
     email: '',
     phone: '',
+    companyName: '',
     message: '',
   })
   const [error, setError] = useState('')
@@ -37,6 +38,8 @@ export default function Contact() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          phone: formData.phone,
+          companyName: formData.companyName,
           message: formData.message,
         }),
       })
@@ -48,7 +51,7 @@ export default function Contact() {
       }
 
       setSuccess('شكراً لتواصلك معنا! سنرد عليك قريباً.')
-      setFormData({ name: '', email: '', phone: '', message: '' })
+      setFormData({ name: '', email: '', phone: '', companyName: '', message: '' })
     } catch (err) {
       setError(err.message || 'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.')
     } finally {
@@ -160,6 +163,7 @@ export default function Contact() {
                   { id: 'name', label: 'الاسم الكامل', type: 'text', placeholder: 'أدخل اسمك الكامل' },
                   { id: 'email', label: 'البريد الإلكتروني', type: 'email', placeholder: 'example@email.com' },
                   { id: 'phone', label: 'رقم الهاتف', type: 'tel', placeholder: '+010 XX XXX XXXX' },
+                  { id: 'companyName', label: 'اسم الشركة', type: 'text', placeholder: 'اسم الشركة (اختياري)' },
                 ].map((field, index) => (
                   <motion.div
                     key={field.id}
@@ -177,7 +181,7 @@ export default function Contact() {
                       name={field.id}
                       value={formData[field.id]}
                       onChange={handleChange}
-                      required={field.id !== 'phone'}
+                      required={field.id !== 'phone' && field.id !== 'companyName'}
                       disabled={loading}
                       whileFocus={{ scale: 1.02 }}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:bg-gray-100 disabled:cursor-not-allowed"
