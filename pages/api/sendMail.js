@@ -63,7 +63,7 @@ export default async function handler(req, res) {
     htmlContent += `<p><strong>الرسالة:</strong><br/>${message}</p>`
 
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
+      from: `"${name}" <${toAddress}>`,
       replyTo: email,
       to: toAddress,
       subject: `رسالة جديدة من ${name}${companyName ? ` - ${companyName}` : ''}`,
