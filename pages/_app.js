@@ -25,9 +25,9 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:site_name" content="IAC" />
 
         {/* صورة اللينك */}
-        {/* <meta property="og:image" content={`${siteUrl}/og-image.png`} />
+        <meta property="og:image" content={`${siteUrl}/og-image.png`} />
         <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" /> */}
+        <meta property="og:image:height" content="630" />
 
         {/* تويتر */}
         <meta name="twitter:card" content="summary_large_image" />
