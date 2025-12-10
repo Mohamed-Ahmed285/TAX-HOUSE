@@ -302,7 +302,7 @@ export default function Contact() {
 
             {/* WhatsApp Button */}
             <motion.a
-              href="https://wa.me/966XXXXXXXXX"
+              href="https://wa.me/201000557702"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05, y: -5 }}
