@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { MdRemoveRedEye } from "react-icons/md";
-
+import Image from "next/image"
 export default function SignupNav() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -37,16 +37,22 @@ export default function SignupNav() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 space-x-reverse">
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl"><MdRemoveRedEye /></span>
-              </div>
-              <span className="mr-3 text-xl font-bold text-primary">
- IAC               
- </span>
-            </div>
-          </Link>
+            <Link href="/" className="flex items-center space-x-2 space-x-reverse">
+        <div className="flex items-center">
+          <div className="w-10 h-10 rounded-lg overflow-hidden">
+              <Image 
+                src="/logo.png"   
+                alt="IAC Logo"
+                width={200}
+                height={200}
+                className="object-cover"
+              />
+          </div>
+    <span className="mr-3 text-xl font-bold text-primary">
+      IAC
+    </span>
+  </div>
+</Link>
 
           {/* Desktop Navigation */}
           <div className=" md:flex items-center space-x-8 space-x-reverse">

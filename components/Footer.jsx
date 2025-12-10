@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { FaLinkedin, FaTwitter, FaFacebook,FaInstagram } from 'react-icons/fa'
 import { MdRemoveRedEye } from "react-icons/md";
+import Image from "next/image"
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -26,9 +28,20 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-xl"><MdRemoveRedEye />
-</span>
+              <div className="w-10 h-10 bg-transparent rounded-lg flex items-center justify-center">
+                <span className="text-primary font-bold text-xl">
+       <div className="flex items-center">
+    <div className="w-10 h-10 rounded-lg overflow-hidden my-[2.5px]">
+      <Image 
+        src="/logo-white.png"       // <-- Put your image in /public/logo.png
+        alt="IAC Logo"
+        width={40}
+        height={40}
+        className="object-cover"
+      />
+    </div>
+  </div>
+                </span>
               </div>
               <span className="mr-3 text-xl font-bold">IAC</span>
             </div>
