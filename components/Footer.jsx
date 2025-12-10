@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa'
+import { FaLinkedin, FaTwitter, FaFacebook,FaInstagram } from 'react-icons/fa'
 import { MdRemoveRedEye } from "react-icons/md";
 
 export default function Footer() {
@@ -15,7 +15,8 @@ export default function Footer() {
   const socialLinks = [
     { name: 'LinkedIn', icon: FaLinkedin, href: '#' },
     { name: 'Twitter', icon: FaTwitter, href: '#' },
-    { name: 'Facebook', icon: FaFacebook, href: '#' },
+    { name: 'Facebook', icon: FaFacebook, href: 'https://www.facebook.com/share/17VmMfqfFY/' },
+    { name: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/iac.accounting.tax/' },
   ]
 
   return (
@@ -69,6 +70,8 @@ export default function Footer() {
                   <a
                     key={social.name}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center hover:bg-accent transition-colors duration-200 text-white"
                     aria-label={social.name}
                   >
