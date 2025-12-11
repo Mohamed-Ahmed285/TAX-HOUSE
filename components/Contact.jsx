@@ -335,12 +335,6 @@ export default function Contact() {
   whileHover={{ scale: 1.02 }}
   transition={{ duration: 0.3 }}
 >
-  <a
-    href="https://maps.app.goo.gl/oYQB7o5WjKDMKAtB9?g_st=ipc"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="block"
-  >
     <div className="bg-white rounded-lg overflow-hidden min-h-[200px] p-0">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2693.4506478193553!2d31.371049575554068!3d30.05485677491833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzDCsDAzJzE3LjUiTiAzMcKwMjInMjUuMSJF!5e1!3m2!1sen!2seg!4v1765465637449!5m2!1sen!2seg"
@@ -352,7 +346,6 @@ export default function Contact() {
         referrerPolicy="no-referrer-when-downgrade"
       ></iframe>
     </div>
-  </a>
 </motion.div>
 
 
