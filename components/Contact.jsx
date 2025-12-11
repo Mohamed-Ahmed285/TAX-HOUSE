@@ -330,25 +330,24 @@ export default function Contact() {
             </motion.a>
 
             {/* Map Placeholder */}
-            <motion.div
-              className="bg-gray-custom rounded-xl p-8 shadow-lg overflow-hidden"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="bg-white rounded-lg p-12 flex items-center justify-center min-h-[200px]">
-                <motion.div
-                  className="text-center text-gray-500"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <p className="text-sm">خريطة الموقع</p>
-                </motion.div>
-              </div>
-            </motion.div>
+           <motion.div
+  className="bg-gray-custom rounded-xl p-8 shadow-lg overflow-hidden"
+  whileHover={{ scale: 1.02 }}
+  transition={{ duration: 0.3 }}
+>
+  <div className="bg-white rounded-lg overflow-hidden min-h-[200px] p-0">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d2693.4506478193553!2d31.371049575554068!3d30.05485677491833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzDCsDAzJzE3LjUiTiAzMcKwMjInMjUuMSJF!5e1!3m2!1sen!2seg!4v1765465637449!5m2!1sen!2seg"
+      width="100%"
+      height="300"
+      style={{ border: 0 }}
+      allowFullScreen=""
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</motion.div>
+
           </motion.div>
         </div>
       </div>
