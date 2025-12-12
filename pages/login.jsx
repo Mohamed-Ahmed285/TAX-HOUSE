@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import LoginNav from '../components/LoginNav'
-import Footer from '../components/Footer'
+import Footer from '../components/LoginFooter'
 import { MdRemoveRedEye } from "react-icons/md"
 import { loginUser } from '../lib/auth'
 import Image from "next/image"

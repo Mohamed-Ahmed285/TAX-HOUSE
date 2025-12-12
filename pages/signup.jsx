@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import SignupNav from '../components/SignupNav'
-import Footer from '../components/Footer'
+import Footer from '../components/LoginFooter'
 import { MdRemoveRedEye } from "react-icons/md"
 import { signUpUser } from '../lib/auth'
 import Image from "next/image"
@@ -231,8 +231,8 @@ export default function Signup() {
           </div>
         </motion.div>
       </div>
-      <Footer />
-    </div>
+  <Footer />
+      </div>
   )
 }
 
